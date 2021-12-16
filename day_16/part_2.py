@@ -63,10 +63,11 @@ def get_parent_packet_uid(packets_list):
             return packet_uid
 
 def calculate_packet_value(packet_uid, packets_list):
-    if ('value'  in packets_list[packet_uid]):
+    type_id = packets_list[packet_uid]['type']
+
+    if (type_id == 4):
         return packets_list[packet_uid]['value']
     else:
-        type_id = packets_list[packet_uid]['type']
         children_packets = packets_list[packet_uid]['children']
         if (type_id == 0):
             return sum([calculate_packet_value(children_packet, packets_list) for children_packet in children_packets])
@@ -76,6 +77,8 @@ def calculate_packet_value(packet_uid, packets_list):
             return min([calculate_packet_value(children_packet, packets_list) for children_packet in children_packets])
         elif (type_id == 3):
             return max([calculate_packet_value(children_packet, packets_list) for children_packet in children_packets])
+        elif (type_id == 4):
+            return packets_list[packet_uid]['value']
         elif (type_id == 5):
             return 1 if calculate_packet_value(children_packets[0], packets_list) > calculate_packet_value(children_packets[1], packets_list) else 0
         elif (type_id == 6):
@@ -94,7 +97,7 @@ def main():
     packets_list = {}
     parse_binary(binary_string, versions_sum, packets_list, None)
 
-    print("Version sum: {}\n".format(versions_sum[0]))
+    print("Version sum: {}".format(versions_sum[0]))
 
     print("Value: {}".format(calculate_packet_value(get_parent_packet_uid(packets_list), packets_list)))
 

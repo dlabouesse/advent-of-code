@@ -65,7 +65,7 @@ def main():
     packets_list = {}
     parse_binary(binary_string, versions_sum, packets_list, None)
 
-    print("Version sum: {}\n".format(versions_sum[0]))
+    print("Version sum: {}".format(versions_sum[0]))
 
 if __name__ == "__main__":
     main()
