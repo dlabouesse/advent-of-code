@@ -6,24 +6,21 @@ def parse_input(lines):
         'formula_pairs' : {},
         'sums': {}
     }
-    first_line = True
 
-    for line in lines:
-        if (first_line):
-            for i in range(len(line)-1):
-                value = line[i]+line[i+1]
-                if value in input['formula_pairs']:
-                    input['formula_pairs'][value] += 1
-                else:
-                    input['formula_pairs'][value] = 1
-            for char in line:
-                if char in input['sums']:
-                    input['sums'][char] += 1
-                else:
-                    input['sums'][char] = 1
-            first_line = False
-        elif (line != ''):
-            input['transformations'][line.split(' -> ')[0]] = line.split(' -> ')[1]
+    formula = str(lines[:1][0])
+    for i in range(len(formula)):
+        if i < len(formula)-1:
+            value = formula[i]+formula[i+1]
+            if value in input['formula_pairs']:
+                input['formula_pairs'][value] += 1
+            else:
+                input['formula_pairs'][value] = 1
+        if formula[i] in input['sums']:
+            input['sums'][formula[i]] += 1
+        else:
+            input['sums'][formula[i]] = 1
+    for transformation in lines[2:]:
+        input['transformations'][transformation.split(' -> ')[0]] = transformation.split(' -> ')[1]
     return input
 
 def apply_transformations_using_pairs(input):
